@@ -1,3 +1,5 @@
+//Jogo RPG - Programação Orientada a Objetos
+
 import java.util.*;
 
 public class Jogo {
