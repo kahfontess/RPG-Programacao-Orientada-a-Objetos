@@ -1,4 +1,4 @@
-//Jogo RPG - Programação Orientada a Objetos
+//Jogo RPG - Programação Orientada a Objetos (POO)
 
 import java.util.*;
 
