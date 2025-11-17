@@ -1,3 +1,5 @@
+// Testes de balanceamento.
+
 public class teste {
     public static void main(String[] args) {
        Inimigo ANDRE = new Inimigo( "Andre", 10);
