@@ -153,16 +153,17 @@ public class Jogo {
         int npc_encounter = 0;
         while (jogador.estaVivo()) {
 
+            jogador.exibirStatus();
             System.out.println("\n📍 O que deseja fazer?");
             System.out.println("1 - Explorar os arredores");
-            System.out.println("2 - Ver status");
-            System.out.println("3 - Inventario");
+            System.out.println("2 - Mostrar inventario");
+            System.out.println("3 - Usar item");
             System.out.println("4 - Descansar");
             System.out.println("5 - Encerrar jornada");
             System.out.print("> ");
             int op = sc.nextInt();
             sc.nextLine();
-
+//probabilidade de eventos e de inimigos (o dragao tem status maior que do boss por ser raro)
             switch (op) {
                 case 1:
                     int evento = rnd.nextInt(100);
@@ -313,64 +314,123 @@ public class Jogo {
             System.out.println("2 - Ataque especial");
             System.out.println("3 - Tentar fugir");
             System.out.print("> ");
-            int escolha = sc.nextInt();
+            int escolha;
+            try {
+                escolha = Integer.parseInt(sc.nextLine().trim());
+            } catch (Exception e) {
+                System.out.println("Entrada inválida. Use 1, 2 ou 3.");
+                continue;
+            }
 
+            // Ação do jogador
             switch (escolha) {
-                case 1:
-                    jogador.atacarBasico(inimigo);
+                case 1: {
+                    // rola dado e verifica defesa
+                    int rolagem = dado.nextInt(6) + 1;
+                    int ataqueTotal = jogador.ataque + rolagem;
+                    System.out.println("\nVocê rola o dado e tira " + rolagem + ". Ataque total: " + ataqueTotal);
+                    if (ataqueTotal > inimigo.defesa) {
+                        int dano = ataqueTotal - inimigo.defesa;
+                        inimigo.receberDano(dano);
+                        System.out.println(jogador.getNome() + " acertou o ataque básico e causou " + dano + " de dano!");
+                    } else {
+                        System.out.println(jogador.getNome() + " atacou, mas não atravessou a defesa do inimigo.");
+                    }
                     break;
+                }
 
-                case 2:
+                case 2: {
+                    // ataque especial também usa rolagem somada à fórmula do ataque especial, garante giro d defesa
+
+                    int rolagem = dado.nextInt(6) + 1;
+                    System.out.println("\nVocê prepara um ataque especial (rolagem: " + rolagem + ").");
                     jogador.atacarEspecial(inimigo);
                     break;
+                }
 
-                case 3:
+                case 3: {
                     int rolagemJogador = dado.nextInt(6) + 1;
                     int rolagemInimigo = dado.nextInt(6) + 1;
-
                     System.out.println("\nVocê rola o dado e tira " + rolagemJogador + ".");
                     System.out.println("O inimigo rola o dado e tira " + rolagemInimigo + ".");
 
                     if (rolagemJogador >= rolagemInimigo) {
                         System.out.println("\n🔥 Você conseguiu fugir com sucesso!");
-
-                        if (inimigo.getNome().toLowerCase().contains("goblin")) {
-                            System.out.println("Você corre entre as árvores da floresta, ouvindo os gritos raivosos do goblin ficando para trás...");
-                        } else if (inimigo.getNome().toLowerCase().contains("lobo")) {
-                            System.out.println("Você dispara em fuga, ouvindo os uivos do lobo ecoando atrás de você enquanto o vento corta o rosto.");
-                        } else if (inimigo.getNome().toLowerCase().contains("orc")) {
-                            System.out.println("O chão treme com os passos pesados do orc, mas você se esconde em uma encosta e o perde de vista.");
+                        String lower = inimigo.getNome().toLowerCase();
+                        if (lower.contains("goblin")) {
+                            System.out.println("Você some entre as árvores, deixando o goblin confuso.");
+                        } else if (lower.contains("lobo")) {
+                            System.out.println("Os uivos ecoam enquanto você some na escuridão.");
+                        } else if (lower.contains("orc")) {
+                            System.out.println("O orc te perde de vista entre as pedras.");
                         } else {
-                            System.out.println("Você foge desesperadamente, seu coração batendo forte, enquanto o inimigo some na escuridão.");
+                            System.out.println("Você foge desesperadamente e perde o inimigo de vista.");
                         }
-
                         System.out.println("Você respira fundo e decide continuar sua jornada...\n");
                         return;
                     } else {
-                        System.out.println("\n⚠️ A fuga falhou!");
-                        System.out.println("Antes que possa reagir, o inimigo o alcança e desfere um golpe!");
-                        inimigo.atacarBasico(jogador);
+                        System.out.println("\n⚠️ A fuga falhou! O inimigo aproveita a abertura.");
+                        // inimigo ataca uma vez quando a fuga falha
+                        // ataque do inimigo usa rolagem + ataque e compara com defesa do jogador
+                        int rolagemI = dado.nextInt(6) + 1;
+                        int ataqueInimigo = inimigo.ataque + rolagemI;
+                        System.out.println("O inimigo rola " + rolagemI + " (ataque total " + ataqueInimigo + ").");
+                        if (ataqueInimigo > jogador.defesa) {
+                            int dano = ataqueInimigo - jogador.defesa;
+                            jogador.receberDano(dano);
+                            System.out.println(inimigo.getNome() + " acertou um golpe e causou " + dano + " de dano!");
+                        } else {
+                            System.out.println(inimigo.getNome() + " atacou, mas não venceu sua defesa.");
+                        }
                     }
                     break;
+                }
 
                 default:
                     System.out.println("Escolha inválida!");
                     continue;
             }
 
+            // Se o inimigo ainda vive e o jogador não tentou fugir ele volta para o batalhar
             if (inimigo.estaVivo() && escolha != 3) {
-                inimigo.atacarBasico(jogador);
+                int rolagemInimigo = dado.nextInt(6) + 1;
+                int ataqueInimigo = inimigo.ataque + rolagemInimigo;
+                System.out.println("\nO inimigo contra-ataca! (rolagem: " + rolagemInimigo + ", ataque total: " + ataqueInimigo + ")");
+                if (ataqueInimigo > jogador.defesa) {
+                    int dano = ataqueInimigo - jogador.defesa;
+                    jogador.receberDano(dano);
+                    System.out.println(inimigo.getNome() + " causou " + dano + " de dano em " + jogador.getNome() + "!");
+                } else {
+                    System.out.println(inimigo.getNome() + " atacou, mas não foi suficiente para romper sua defesa.");
+                }
             }
         }
 
+        // Resultado da luta
         if (jogador.estaVivo()) {
             System.out.println("\n🏆 Você derrotou o inimigo!");
             jogador.restaurarVida(10);
             System.out.println("Você recuperou um pouco de HP após a luta.");
-            System.out.println("Você ganhou "+inimigo.dropXp()+" de XP");
-            jogador.receberXp(inimigo.dropXp());
+            int xpGain = inimigo.dropXp();
+            System.out.println("Você ganhou " + xpGain + " de XP");
+            jogador.receberXp(xpGain);
+
+            // loot para o jogador
+            if (inimigo.inventario != null && !inimigo.inventario.getItens().isEmpty()) {
+                System.out.println("\n🎁 Você saqueia o inimigo e encontra:");
+                Inventario loot = inimigo.inventario.clone(); // clone profundo
+                for (Item it : loot.getItens()) {
+                    // adiciona o item e soma ao o que ja tem
+                    jogador.inventario.adicionarItem(it.clone());
+                    System.out.println("- " + it.getNome() + " x" + it.getQuantidade());
+                }
+            } else {
+                System.out.println("\n(sem loot)");
+            }
+
         } else {
             System.out.println("\n💀 Você foi derrotado...");
         }
     }
+
 }

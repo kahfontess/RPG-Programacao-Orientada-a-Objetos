@@ -4,7 +4,7 @@
 import java.util.Scanner;
 
 public class EscolhaClasse {
-
+// classes que tem disponivel no game
     public static Personagem escolherClasse() {
         Scanner sc = new Scanner(System.in);
         System.out.println("\nEscolha sua classe:");

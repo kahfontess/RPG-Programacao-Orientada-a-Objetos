@@ -20,15 +20,27 @@ public class Mago extends Personagem {
 
     @Override
     public void atacarEspecial(Personagem inimigo) {
-        if (pontosMana >= 20) {
-            pontosMana -= 20;
-            int dano = (ataque * this.nivel / 2 + dado.nextInt(7*this.nivel))*2 + 15 - inimigo.defesa;
-            inimigo.receberDano(Math.max(dano, 0));
-            System.out.println(nome + " lançou uma Bola de Fogo! Dano: " + dano);
-        } else {
-            System.out.println("Mana insuficiente! Use outro ataque.");
+        if (pontosMana < 20) {
+            System.out.println("Mana insuficiente!");
+            return;
         }
+
+        pontosMana -= 20;
+
+        int rolagem = dado.nextInt(6) + 1;
+        int ataqueTotal = ataque + (rolagem * 4) + 8;
+
+        System.out.println("\n" + nome + " conjura uma Bola de Fogo!");
+        System.out.println("Rolagem do dado: " + rolagem);
+        System.out.println("Poder mágico total: " + ataqueTotal);
+
+        int dano = ataqueTotal - inimigo.defesa;
+        if (dano < 0) dano = 0;
+
+        inimigo.receberDano(dano);
+        System.out.println("A explosão flamejante atinge o inimigo causando " + dano + " de dano!");
     }
+
 
     @Override
     public String toString() {

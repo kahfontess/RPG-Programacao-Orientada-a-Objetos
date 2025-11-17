@@ -6,13 +6,19 @@ public class Inventario implements Cloneable {
     private List<Item> itens = new ArrayList<>();
 
     public void adicionarItem(Item item) {
-        try{
-            itens.get(itens.indexOf(item)).aumentarQtd(1);
-        }catch (Exception _){
-            itens.add(item);
+        // Se já existe um item com o mesmo nome, soma a quantidade inteira do item recebido
+        for (Item i : itens) {
+            if (i.equals(item)) {
+                i.aumentarQtd(item.getQuantidade());
+                Collections.sort(itens);
+                return;
+            }
         }
+        // senão adiciona uma cópia do item recebido
+        itens.add(item.clone());
         Collections.sort(itens);
     }
+
 
     public void listarItens() {
         System.out.println("\n--- Inventário ---");

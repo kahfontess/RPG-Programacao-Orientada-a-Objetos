@@ -107,11 +107,18 @@ public abstract class Personagem {
     public void restaurarVida(int valor) {
         pontosVida = Math.min(vidaMaxima, pontosVida + valor);
     }
-
+//status do player
     public void exibirStatus() {
-        System.out.println("\n[" + nome + "] - HP: " + pontosVida + "/" + vidaMaxima +
-                " | MP: " + pontosMana + "/" + manaMaxima +
-                " | Nível: " + nivel);
+        System.out.println("\n===== STATUS DE " + nome.toUpperCase() + " =====");
+        System.out.println("HP: " + pontosVida + "/" + vidaMaxima);
+        System.out.println("Mana: " + pontosMana + "/" + manaMaxima);
+        System.out.println("Ataque: " + ataque);
+        System.out.println("Defesa: " + defesa);
+        System.out.println("====================================");
+    }
+    public void mostrarStatus() {
+        System.out.println("\n===== STATUS DO PERSONAGEM =====");
+        System.out.println(this.toString());
     }
 
     public String getNome() { return nome; }
@@ -120,13 +127,14 @@ public abstract class Personagem {
 
     @Override
     public String toString() {
-        return "nome: " + this.nome + "\n" +
-
-                "vidaMaxima: " + this.vidaMaxima + "\n" +
-                "manaMaxima: " + this.manaMaxima + "\n" +
-                "defesa: " + this.defesa + "\n" +
-                "ataque: " + this.ataque + "\n";
-
+        return "Nome: " + nome + "\n" +
+                "Nível: " + nivel + "\n" +
+                "Vida: " + pontosVida + "/" + vidaMaxima + "\n" +
+                "Mana: " + pontosMana + "/" + manaMaxima + "\n" +
+                "Ataque: " + ataque + "\n" +
+                "Defesa: " + defesa;
     }
+
+
 
 }

@@ -44,6 +44,11 @@ public class Item implements Comparable<Item> {
         quantidade--;
     }
 
+
+    public String getDescricao() { return descricao;}
+
+    public String getEfeito() {return efeito;}
+
     public int getQuantidade() { return quantidade; }
 
     public String getNome() { return nome; }

@@ -20,15 +20,27 @@ public class Guerreiro extends Personagem {
 
     @Override
     public void atacarEspecial(Personagem inimigo) {
-        if (pontosMana >= 10) {
-            pontosMana -= 10;
-            int dano = ataque*2 + dado.nextInt(12) + 10 - inimigo.defesa;
-            inimigo.receberDano(Math.max(dano, 0));
-            System.out.println(nome + " usou GOLPE GIRATÓRIO! Causou " + dano + " de dano!");
-        } else {
-            System.out.println("Mana insuficiente! Use um ataque básico.");
+        if (pontosMana < 10) {
+            System.out.println("Mana insuficiente!");
+            return;
         }
+
+        pontosMana -= 10;
+
+        int rolagem = dado.nextInt(6) + 1;
+        int ataqueTotal = ataque + rolagem + 10;
+
+        System.out.println("\n" + nome + " ergue sua arma para um Golpe Giratório!");
+        System.out.println("Rolagem do dado: " + rolagem);
+        System.out.println("Ataque total do especial: " + ataqueTotal);
+
+        int dano = ataqueTotal - inimigo.defesa;
+        if (dano < 0) dano = 0;
+
+        inimigo.receberDano(dano);
+        System.out.println(nome + " gira com força devastadora causando " + dano + " de dano!");
     }
+
 
     @Override
     public String toString() {
