@@ -1,3 +1,5 @@
+//Classe Mago e seu balanceamento.
+
 public class Mago extends Personagem {
 
     public Mago(String nome) {

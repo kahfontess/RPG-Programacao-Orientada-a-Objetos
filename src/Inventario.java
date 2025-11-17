@@ -1,3 +1,5 @@
+//Funcionamento inventario.
+
 import java.util.*;
 
 public class Inventario implements Cloneable {

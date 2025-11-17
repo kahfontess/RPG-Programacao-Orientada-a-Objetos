@@ -1,3 +1,5 @@
+//Classe Guerreiro e seu balanceamento.
+
 public class Guerreiro extends Personagem {
 
     public Guerreiro(String nome) {

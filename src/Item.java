@@ -1,3 +1,5 @@
+//Funcionamento dos itens.
+
 public class Item implements Comparable<Item> {
     private String nome;
     private String descricao;

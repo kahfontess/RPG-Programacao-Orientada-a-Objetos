@@ -1,3 +1,5 @@
+//Inimigos e seu balanceamento.
+
 import java.util.Arrays;
 
 public class Inimigo extends Personagem {
@@ -36,20 +38,6 @@ public class Inimigo extends Personagem {
 
         public static enum tipos {
 
-            ///SLIME(new Inimigo("Slime", 10, 5, 2, 1, 1){
-              ///  @Override
-               /// public void atacarBasico(Personagem inimigo) {
-                 ///   int dano = ataque + dado.nextInt(8) - inimigo.defesa;
-                   /// if (dano < 0) dano = 0;
-                   /// inimigo.receberDano(dano);
-                   /// System.out.println(nome + " atacou causando " + dano + " de dano!");
-               /// }
-
-               /// @Override
-               /// public void atacarEspecial(Personagem inimigo) {
-               ///     atacarBasico(inimigo); // inimigos simples não usam mana
-                ///}
-            ///}),
             SLIME(new Inimigo("Slime", 10, 5, 2, 1, 1)),
             GOBLIN(new Inimigo("Goblin", 35, 7, 3, 2, 1)),
             ORC(new Inimigo("Orc", 50, 10, 5, 3, 1)),

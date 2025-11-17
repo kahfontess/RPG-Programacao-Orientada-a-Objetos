@@ -1,3 +1,6 @@
+//Escolhas de classe, funcionamento.
+
+
 import java.util.Scanner;
 
 public class EscolhaClasse {

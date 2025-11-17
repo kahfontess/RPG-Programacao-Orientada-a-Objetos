@@ -1,3 +1,5 @@
+//Classe arqueiro e seu balanceamento.
+
 public class Arqueiro extends Personagem {
 
     public Arqueiro(String nome) {

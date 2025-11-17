@@ -1,3 +1,5 @@
+//Funcionamento do personagem.
+
 import java.util.Random;
 
 public abstract class Personagem {
