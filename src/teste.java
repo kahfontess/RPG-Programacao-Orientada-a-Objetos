@@ -1,4 +1,4 @@
-// Testes de balanceamento.
+// Testes de balanceamento de personagens e inimigos.
 
 public class teste {
     public static void main(String[] args) {
